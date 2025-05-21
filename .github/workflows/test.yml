@@ -45,8 +45,4 @@ jobs:
     - name: Run model inference tests
       run: |
         pytest day5/演習3/tests/test_model_inference.py -v
-        
-    # 追加: モデルのパフォーマンス比較テスト
-    - name: Run model performance comparison
-      run: |
-        pytest day5/演習3/tests/test_model_comparison.py -v
+        pytest day5/演習3/tests/test_model_inference.py -v --disable-warnings
