@@ -1,8 +1,5 @@
 import time
-
-# sys.path設定（必要に応じて）
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
-from models.main import DataLoader, ModelTester
+from day5.演習2.main import DataLoader, ModelTester
 
 
 def test_model_inference_accuracy():
@@ -17,7 +14,7 @@ def test_model_inference_accuracy():
 def test_model_inference_time():
     model = ModelTester.load_model("day5/演習2/main.py")
     data = DataLoader.load_titanic_data("day5/演習1/data/Titanic.csv")
-    X, _ = DataLoader.preprocess_titanic_data(data)
+    X, y = DataLoader.preprocess_titanic_data(data)
     start = time.time()
     _ = model.predict(X)
     elapsed = time.time() - start
