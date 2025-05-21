@@ -2,6 +2,7 @@ import pytest
 import time
 import os
 import pandas as pd
+import sys
 from models.main import DataLoader, ModelTester  # パスはリポジトリ構成に合わせて変更
 
 
@@ -33,4 +34,3 @@ def test_model_inference_time():
     elapsed = time.time() - start
 
     assert elapsed < 1.0, f"Inference took too long: {elapsed:.4f} sec"
-
