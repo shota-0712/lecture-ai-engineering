@@ -1,10 +1,17 @@
+import os
 import time
 from day5.演習2.main import DataLoader, ModelTester
 
+# モデルファイルパスの明示的な指定
+MODEL_DIR = os.path.join(os.path.dirname(__file__), "../models")
+MODEL_PATH = os.path.join(MODEL_DIR, "titanic_model.pkl")
+DATA_PATH = os.path.join(os.path.dirname(__file__), "../data/Titanic.csv")
+
 
 def test_model_inference_accuracy():
-    model = ModelTester.load_model("day5/演習2/main.py")
-    data = DataLoader.load_titanic_data("day5/演習1/data/Titanic.csv")
+    """モデルの推論精度が0.75以上であることを検証"""
+    model = ModelTester.load_model(MODEL_PATH)
+    data = DataLoader.load_titanic_data(DATA_PATH)
     X, y = DataLoader.preprocess_titanic_data(data)
     y_pred = model.predict(X)
     accuracy = (y_pred == y).mean()
@@ -12,8 +19,9 @@ def test_model_inference_accuracy():
 
 
 def test_model_inference_time():
-    model = ModelTester.load_model("day5/演習2/main.py")
-    data = DataLoader.load_titanic_data("day5/演習1/data/Titanic.csv")
+    """モデルの推論が1秒以内に完了することを検証"""
+    model = ModelTester.load_model(MODEL_PATH)
+    data = DataLoader.load_titanic_data(DATA_PATH)
     X, y = DataLoader.preprocess_titanic_data(data)
     start = time.time()
     _ = model.predict(X)
