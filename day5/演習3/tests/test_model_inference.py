@@ -1,36 +1,29 @@
-import pytest
-import time
 import os
-import pandas as pd
-from models.main import DataLoader, ModelTester  # パスはリポジトリ構成に合わせて変更
+import time
+from day5.演習2.main import DataLoader, ModelTester
+
+# モデルファイルパスの明示的な指定
+MODEL_DIR = os.path.join(os.path.dirname(__file__), "../models")
+MODEL_PATH = os.path.join(MODEL_DIR, "titanic_model.pkl")
+DATA_PATH = os.path.join(os.path.dirname(__file__), "../data/Titanic.csv")
 
 
 def test_model_inference_accuracy():
-    """モデルの推論精度をテスト"""
-    # モデル読み込み
-    model = ModelTester.load_model("models/titanic_model.pkl")
-
-    # テストデータの読み込みと前処理
-    data = DataLoader.load_titanic_data("data/Titanic.csv")
+    """モデルの推論精度が0.75以上であることを検証"""
+    model = ModelTester.load_model(MODEL_PATH)
+    data = DataLoader.load_titanic_data(DATA_PATH)
     X, y = DataLoader.preprocess_titanic_data(data)
-
-    # 精度評価
     y_pred = model.predict(X)
     accuracy = (y_pred == y).mean()
-
-    # 閾値に基づくテスト
     assert accuracy >= 0.75, f"Accuracy too low: {accuracy:.4f}"
 
 
 def test_model_inference_time():
-    """モデルの推論時間をテスト"""
-    model = ModelTester.load_model("models/titanic_model.pkl")
-    data = DataLoader.load_titanic_data("data/Titanic.csv")
-    X, _ = DataLoader.preprocess_titanic_data(data)
-
+    """モデルの推論が1秒以内に完了することを検証"""
+    model = ModelTester.load_model(MODEL_PATH)
+    data = DataLoader.load_titanic_data(DATA_PATH)
+    X, y = DataLoader.preprocess_titanic_data(data)
     start = time.time()
     _ = model.predict(X)
     elapsed = time.time() - start
-
     assert elapsed < 1.0, f"Inference took too long: {elapsed:.4f} sec"
-
